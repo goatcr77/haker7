@@ -1,0 +1,42 @@
+# Q1. Draw a pie chart using R programming for the following datadistribution:
+# Digits on
+# Dice
+# 1 2 3 4 5 6
+# Frequency of
+# getting each
+# number
+# 7 2 6 3 4 8
+
+
+# Dice roll data
+numbers <- c(1, 2, 3, 4, 5, 6)
+frequency <- c(7, 2, 6, 3, 4, 8)
+
+# Create a pie chart
+pie(frequency, labels = numbers, main = "Dice Roll Frequencies", col = rainbow(length(numbers)))
+
+# Add a legend
+legend("topright", numbers, fill = rainbow(length(numbers))
+
+# Add a title
+title("Dice Roll Frequencies")
+
+# Display the pie chart
+# Q2. Write a Python program to read “StudentsPerformance.csv” file. Solvefollowing:
+# - To display the shape of dataset.
+# - To display the top rows of the dataset with their columns.Note: Download
+# dataset from following link :
+# (https://www.kaggle.com/spscientist/students-performance-inexams?
+# select=StudentsPerformance.csv) 
+
+import pandas as pd
+
+# Load the dataset from the CSV file
+df = pd.read_csv("StudentsPerformance.csv")
+
+# Display the shape of the dataset (number of rows and columns)
+print("Shape of the dataset:", df.shape)
+
+# Display the top rows of the dataset with their columns
+print("Top rows of the dataset:")
+print(df.head())
