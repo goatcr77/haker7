@@ -1,0 +1,64 @@
+ Q1. Write a R program to reverse a number and also calculate the sum ofdigits of that
+# number.(i don't know how to run this r program)
+
+
+# Function to reverse a number
+reverse_number <- function(number) {
+  reversed <- 0
+  while (number > 0) {
+    digit <- number %% 10
+    reversed <- reversed * 10 + digit
+    number <- number %/% 10
+  }
+  return(reversed)
+}
+
+# Function to calculate the sum of digits of a number
+sum_of_digits <- function(number) {
+  sum_digits <- 0
+  while (number > 0) {
+    digit <- number %% 10
+    sum_digits <- sum_digits + digit
+    number <- number %/% 10
+  }
+  return(sum_digits)
+}
+
+# Input the number
+number <- as.integer(readline("Enter a number: "))
+
+# Reverse the number
+reversed <- reverse_number(number)
+
+# Calculate the sum of digits
+sum_digits <- sum_of_digits(number)
+
+# Print the results
+cat("Reversed Number:", reversed, "\n")
+cat("Sum of Digits:", sum_digits, "\n")
+# Q2. Consider the following observations/data. And apply simple linear regression and find 
+# out estimated coefficients b0 and b1.( use numpypackage)
+# x=[0,1,2,3,4,5,6,7,8,9,11,13]
+# y = ([1, 3, 2, 5, 7, 8, 8, 9, 10, 12,16, 18] 
+
+import numpy as np
+
+# Given data
+x = np.array([0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 11, 13])
+y = np.array([1, 3, 2, 5, 7, 8, 8, 9, 10, 12, 16, 18])
+
+# Calculate the means
+x_mean = np.mean(x)
+y_mean = np.mean(y)
+
+# Calculate b1 (slope)
+numerator = np.sum((x - x_mean) * (y - y_mean))
+denominator = np.sum((x - x_mean) ** 2)
+b1 = numerator / denominator
+
+# Calculate b0 (intercept)
+b0 = y_mean - b1 * x_mean
+
+# Print the coefficients
+print("b0 (intercept):", b0)
+print("b1 (slope):", b1)
