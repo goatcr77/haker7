@@ -1,0 +1,175 @@
+// Q.1 Write the program to calculate minimum number of resources needed to avoid
+// deadlock. 
+
+#include <stdio.h>
+
+// Function to calculate the minimum resources needed to avoid deadlock
+void calculateMinimumResources(int processes, int resources, int available[resources], int allocated[processes][resources], int maximum[processes][resources]) {
+    int need[processes][resources];
+    int work[resources];
+    int finish[processes];
+    int safe_sequence[processes];
+    int work_copy[resources];
+
+    // Initialize work, finish, and safe_sequence arrays
+    for (int i = 0; i < resources; i++) {
+        work[i] = available[i];
+    }
+    for (int i = 0; i < processes; i++) {
+        finish[i] = 0;
+    }
+
+    // Calculate the need matrix
+    for (int i = 0; i < processes; i++) {
+        for (int j = 0; j < resources; j++) {
+            need[i][j] = maximum[i][j] - allocated[i][j];
+        }
+    }
+
+    int count = 0;
+    while (count < processes) {
+        int found = 0;
+
+        for (int i = 0; i < processes; i++) {
+            if (finish[i] == 0) {
+                int j;
+                for (j = 0; j < resources; j++) {
+                    if (need[i][j] > work[j]) {
+                        break;
+                    }
+                }
+
+                if (j == resources) {
+                    for (int k = 0; k < resources; k++) {
+                        work[k] += allocated[i][k];
+                    }
+                    safe_sequence[count] = i;
+                    finish[i] = 1;
+                    count++;
+                    found = 1;
+                }
+            }
+        }
+
+        if (found == 0) {
+            printf("System is not in a safe state. Deadlock detected!\n");
+            return;
+        }
+    }
+
+    printf("System is in a safe state. Safe sequence: ");
+    for (int i = 0; i < processes; i++) {
+        printf("P%d ", safe_sequence[i]);
+    }
+    printf("\n");
+
+    printf("Minimum resources needed to avoid deadlock: ");
+    for (int i = 0; i < resources; i++) {
+        work_copy[i] = available[i];
+        for (int j = 0; j < processes; j++) {
+            work_copy[i] -= allocated[j][i];
+        }
+        printf("%d ", work_copy[i]);
+    }
+    printf("\n");
+}
+
+int main() {
+    int processes = 5; // Number of processes
+    int resources = 3; // Number of resource types
+
+    int available[] = {3, 3, 2};
+
+    int allocated[5][3] = {{0, 1, 0}, {2, 0, 0}, {3, 0, 2}, {2, 1, 1}, {0, 0, 2}};
+
+    int maximum[5][3] = {{7, 5, 3}, {3, 2, 2}, {9, 0, 2}, {2, 2, 2}, {4, 3, 3}};
+
+    calculateMinimumResources(processes, resources, available, allocated, maximum);
+
+    return 0;
+}
+// Q.2 Write the simulation program to implement demand paging and show the page scheduling
+// and total number of page faults for the following given page reference string. Give input n=3 as
+// the number of memory frames.
+// Reference String : 12,15,12,18,6,8,11,12,19,12,6,8,12,15,19,8
+// Implement OPT
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+// Function to check if a page is in memory
+int isPageInMemory(int page, int* memory, int num_frames) {
+    for (int i = 0; i < num_frames; i++) {
+        if (memory[i] == page) {
+            return 1;
+        }
+    }
+    return 0;
+}
+
+// Function to find the page with the longest time until the next reference
+int findOptimalReplacement(int* memory, int* page_references, int num_frames, int current_index, int num_references) {
+    int page_to_replace = -1;
+    int farthest_distance = -1;
+
+    for (int i = 0; i < num_frames; i++) {
+        int page = memory[i];
+        int distance = num_references;
+
+        for (int j = current_index + 1; j < num_references; j++) {
+            if (page_references[j] == page) {
+                distance = j - current_index;
+                break;
+            }
+        }
+
+        if (distance > farthest_distance) {
+            farthest_distance = distance;
+            page_to_replace = i;
+        }
+    }
+
+    return page_to_replace;
+}
+
+int main() {
+    char reference_string[] = "12,15,12,18,6,8,11,12,19,12,6,8,12,15,19,8";
+    int num_frames = 3;
+    int page_references[100];
+    int memory[3] = {-1, -1, -1};
+    int page_faults = 0;
+    int current_index = 0;
+    int num_references = 0;
+
+    char* token = strtok(reference_string, ",");
+    while (token != NULL) {
+        page_references[num_references] = atoi(token);
+        num_references++;
+        token = strtok(NULL, ",");
+    }
+
+    for (int i = 0; i < num_references; i++) {
+        if (!isPageInMemory(page_references[i], memory, num_frames)) {
+            // Page fault
+            page_faults++;
+
+            if (memory[current_index] == -1) {
+                // If there are empty frames, fill them
+                memory[current_index] = page_references[i];
+            } else {
+                // Otherwise, find the page with the longest time until the next reference and replace it
+                int page_to_replace = findOptimalReplacement(memory, page_references, num_frames, i, num_references);
+                memory[page_to_replace] = page_references[i];
+            }
+
+            current_index = (current_index + 1) % num_frames;
+
+            printf("Page %d -> Frames: %d, %d, %d\n", page_references[i], memory[0], memory[1], memory[2]);
+        }
+    }
+
+    printf("Total Page Faults: %d\n", page_faults);
+
+    return 0;
+}
