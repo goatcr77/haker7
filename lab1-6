@@ -1,0 +1,534 @@
+
+Experiment 1: Data Collection and Exploration using Python 
+Objective: To understand and implement data collection and exploration techniques using 
+Python, including importing data from CSV and Excel files. 
+Importing Data from CSV and Excel Files 
+Requirements: 
+ Python installed (Recommended: Python 3.x) 
+ Pandas library (pip install pandas) 
+ Jupyter Notebook or any Python IDE 
+ Sample CSV and Excel files 
+Theory: 
+Data collection is a crucial step in data analysis. In Python, the pandas library provides 
+functions to read data from various sources such as CSV, Excel, databases, and web APIs. 
+Step-by-Step Procedure: 
+1. Importing Required Libraries 
+import pandas as pd 
+2. Loading a CSV File 
+df_csv = pd.read_csv('sample_data.csv') 
+print(df_csv.head())  # Display first five rows 
+3. Loading an Excel File 
+df_excel = pd.read_excel('sample_data.xlsx', sheet_name='Sheet1') 
+print(df_excel.head()) 
+4. Exploring the Data 
+# Display basic information about the dataset 
+df_csv.info() 
+df_excel.info() 
+# Display summary statistics 
+df_csv.describe() 
+df_excel.describe() 
+# Check the number of rows and columns 
+df_csv.shape 
+df_excel.shape 
+# Display column names 
+df_csv.columns 
+df_excel.columns 
+# Display data types of each column 
+df_csv.dtypes 
+df_excel.dtypes 
+5. Filtering and Selecting Data 
+# Select specific columns 
+df_selected = df_csv[['Column1', 'Column2']] 
+# Filter rows based on a condition 
+df_filtered = df_csv[df_csv['Column1'] > 50] 
+6. Sorting Data 
+# Sort data by a column in ascending order 
+df_sorted = df_csv.sort_values(by='Column1') 
+# Sort data by multiple columns 
+df_sorted_multi = df_csv.sort_values(by=['Column1', 'Column2'], ascending=[True, False]) 
+7. Grouping and Aggregating Data 
+# Group data by a column and calculate mean 
+df_grouped = df_csv.groupby('CategoryColumn').mean() 
+# Count occurrences of each category 
+df_counts = df_csv['CategoryColumn'].value_counts() 
+8. Merging and Concatenating Data 
+# Merge two dataframes on a common column 
+df_merged = pd.merge(df_csv, df_excel, on='CommonColumn', how='inner') 
+# Concatenate two dataframes vertically 
+df_concat = pd.concat([df_csv, df_excel], axis=0) 
+9. Saving Processed Data 
+df_csv.to_csv('processed_data.csv', index=False) 
+df_excel.to_excel('processed_data.xlsx', index=False) 
+Observations: 
+ Data from CSV and Excel files were successfully imported into Python. 
+ Basic exploration, filtering, sorting, and aggregation were performed. 
+ The processed data was saved back to CSV and Excel formats. 
+Conclusion: 
+This experiment demonstrates how to import, explore, filter, and process data using the pandas 
+library in Python. Understanding these techniques is essential for effective data analysis and 
+preprocessing. 
+Viva Questions: 
+1. What is the difference between read_csv() and read_excel() in Pandas? 
+2. What is the purpose of the .info() and .describe() functions in Pandas? 
+3. How can you handle missing data in a dataset? 
+4. How do you save a modified dataset back to a file? 
+5. What is the difference between merge() and concat() in Pandas? 
+6. How do you group data in Pandas? 
+7. How can you filter rows based on conditions? 
+
+
+
+
+
+
+
+Experiment 2: Data Cleaning - Handling Missing Values, Outliers, and 
+Inconsistent Data 
+Objective: To understand and implement data cleaning techniques, including handling 
+missing values, detecting and removing outliers, and resolving inconsistent data using 
+Python. 
+Requirements: 
+ Python installed (Recommended: Python 3.x) 
+ Pandas and NumPy libraries (pip install pandas numpy) 
+ Jupyter Notebook or any Python IDE 
+ Sample dataset (CSV or Excel format) 
+Theory: 
+Data cleaning is an essential step in data preprocessing. Raw datasets often contain missing 
+values, outliers, or inconsistencies that can affect analysis accuracy. Using the Pandas library, 
+we can efficiently clean and prepare data for further processing. 
+Step-by-Step Procedure: 
+1. Importing Required Libraries 
+import pandas as pd 
+import numpy as np 
+2. Loading Data 
+df = pd.read_csv('sample_data.csv') 
+print(df.head())  # Display first five rows 
+3. Checking for Missing Values 
+print(df.isnull().sum())  # Count missing values in each column 
+print(df.isna().sum())    
+# Alternative method to check missing values 
+4. Handling Missing Data 
+# Fill missing values with mean 
+df.fillna(df.mean(), inplace=True) 
+# Fill missing values with median 
+df.fillna(df.median(), inplace=True) 
+# Fill missing values with a specific value 
+df.fillna("Unknown", inplace=True) 
+# Drop rows with missing values 
+df.dropna(inplace=True) 
+# Drop columns with missing values 
+df.dropna(axis=1, inplace=True) 
+5. Identifying and Handling Outliers 
+# Detect outliers using the IQR method 
+Q1 = df.quantile(0.25) 
+Q3 = df.quantile(0.75) 
+IQR = Q3 - Q1 
+# Define outlier condition 
+outliers = (df < (Q1 - 1.5 * IQR)) | (df > (Q3 + 1.5 * IQR)) 
+print(outliers.sum())  # Count of outliers per column 
+# Remove outliers 
+df_cleaned = df[~outliers.any(axis=1)] 
+6. Handling Inconsistent Data 
+# Convert column to lowercase for consistency 
+df['CategoryColumn'] = df['CategoryColumn'].str.lower() 
+# Strip whitespace from string columns 
+df['CategoryColumn'] = df['CategoryColumn'].str.strip() 
+# Replace inconsistent categorical values 
+df.replace({'Yes': 1, 'No': 0}, inplace=True) 
+# Standardize date formats 
+df['DateColumn'] = pd.to_datetime(df['DateColumn']) 
+7. Saving the Cleaned Data 
+df.to_csv('cleaned_data.csv', index=False) 
+df.to_excel('cleaned_data.xlsx', index=False) 
+Observations: 
+ Checked for missing values and handled them using different techniques. 
+ Identified and removed outliers using the IQR method. 
+ Resolved inconsistencies in categorical and date columns. 
+ Saved the cleaned dataset for further use. 
+Conclusion: 
+This experiment demonstrates how to clean raw data using Pandas. Handling missing values, 
+detecting outliers, and resolving inconsistencies are crucial steps in ensuring data quality 
+before analysis. 
+Viva Questions: 
+1. Why is data cleaning important in data analysis? 
+2. What are different methods to handle missing values? 
+3. How do you identify outliers in a dataset? 
+4. What is the IQR method for detecting outliers? 
+5. How can you standardize inconsistent categorical data? 
+6. How do you save a cleaned dataset back to a file? 
+
+
+
+
+
+
+
+Experiment 3: Data Transformation and Feature Engineering 
+Objective: To understand and implement data transformation techniques, including 
+normalization and encoding categorical data, using Python. 
+Requirements: 
+ Python installed (Recommended: Python 3.x) 
+ Pandas, NumPy, and Scikit-learn libraries (pip install pandas numpy scikit
+learn) 
+ Jupyter Notebook or any Python IDE 
+ Sample dataset (CSV or Excel format) 
+Theory: 
+Data transformation and feature engineering are crucial steps in preparing raw data for 
+machine learning models. Transformation techniques like normalization help in scaling 
+numerical features, while encoding categorical data converts text values into a format that 
+models can process. 
+Step-by-Step Procedure: 
+1. Importing Required Libraries 
+import pandas as pd 
+import numpy as np 
+from sklearn.preprocessing import MinMaxScaler, StandardScaler, 
+LabelEncoder, OneHotEncoder 
+2. Loading Data 
+df = pd.read_csv('sample_data.csv') 
+print(df.head())  # Display first five rows 
+3. Normalization of Numerical Data 
+# Using Min-Max Scaling (Normalization) 
+scaler = MinMaxScaler() 
+df[['NumericColumn']] = scaler.fit_transform(df[['NumericColumn']]) 
+# Using Standard Scaling (Z-score normalization) 
+scaler = StandardScaler() 
+df[['NumericColumn']] = scaler.fit_transform(df[['NumericColumn']]) 
+4. Encoding Categorical Data 
+# Label Encoding (Converting categories to numerical labels) 
+label_encoder = LabelEncoder() 
+df['CategoryColumn'] = label_encoder.fit_transform(df['CategoryColumn']) 
+# One-Hot Encoding (Creating separate binary columns for each category) 
+df = pd.get_dummies(df, columns=['CategoryColumn']) 
+5. Saving the Transformed Data 
+df.to_csv('transformed_data.csv', index=False) 
+df.to_excel('transformed_data.xlsx', index=False) 
+Observations: 
+ Normalization was applied to numerical columns using Min-Max and Standard 
+Scalers. 
+ Categorical columns were encoded using Label Encoding and One-Hot Encoding. 
+ The transformed dataset was saved for further processing. 
+Conclusion: 
+This experiment demonstrates how to prepare data for machine learning by applying 
+transformation techniques. Normalization helps in handling varying scales in numerical 
+features, while encoding categorical data ensures compatibility with machine learning 
+algorithms. 
+Viva Questions: 
+1. What is the purpose of data transformation in machine learning? 
+2. How does Min-Max scaling differ from Standard Scaling? 
+3. What is Label Encoding, and when should it be used? 
+4. What is One-Hot Encoding, and why is it important? 
+5. How do you decide whether to use Label Encoding or One-Hot Encoding? 
+6. How can you apply feature engineering to improve model performance? 
+
+
+
+
+
+
+Experiment 4: Creating Visualizations using Matplotlib and Seaborn 
+Objective: To understand and implement data visualization techniques using Matplotlib and 
+Seaborn in Python. 
+Requirements: 
+ Python installed (Recommended: Python 3.x) 
+ Matplotlib and Seaborn libraries (pip install matplotlib seaborn) 
+ Pandas and NumPy (pip install pandas numpy) 
+ Jupyter Notebook or any Python IDE 
+ Sample dataset (CSV or Excel format) 
+Theory: 
+Data visualization is an essential step in data analysis, allowing us to better understand trends, 
+patterns, and relationships within data. Matplotlib is a powerful plotting library, while 
+Seaborn is built on top of Matplotlib and provides advanced visualization functions with 
+better aesthetics. 
+Step-by-Step Procedure: 
+1. Importing Required Libraries 
+import pandas as pd 
+import numpy as np 
+import matplotlib.pyplot as plt 
+import seaborn as sns 
+2. Loading Data 
+df = pd.read_csv('sample_data.csv') 
+print(df.head())  # Display first five rows 
+3. Creating Basic Plots using Matplotlib 
+# Line Plot 
+plt.figure(figsize=(8,5)) 
+plt.plot(df['Column1'], df['Column2'], marker='o', linestyle='-') 
+plt.xlabel('Column1') 
+plt.ylabel('Column2') 
+plt.title('Line Plot') 
+plt.show() 
+# Bar Plot 
+plt.figure(figsize=(8,5)) 
+plt.bar(df['CategoryColumn'], df['NumericColumn'], color='blue') 
+plt.xlabel('CategoryColumn') 
+plt.ylabel('NumericColumn') 
+plt.title('Bar Plot') 
+plt.show() 
+4. Creating Advanced Plots using Seaborn 
+# Histogram (Distribution Plot) 
+sns.histplot(df['NumericColumn'], bins=20, kde=True, color='green') 
+plt.title('Histogram with KDE') 
+plt.show() 
+# Box Plot (Detecting Outliers) 
+sns.boxplot(x=df['CategoryColumn'], y=df['NumericColumn'], 
+palette='coolwarm') 
+plt.title('Box Plot') 
+plt.show() 
+# Scatter Plot with Regression Line 
+sns.regplot(x=df['Column1'], y=df['Column2']) 
+plt.title('Scatter Plot with Regression Line') 
+plt.show() 
+5. Saving the Visualizations 
+plt.savefig('visualization.png') 
+Observations: 
+ Different types of plots were created using Matplotlib and Seaborn. 
+ Seaborn provides aesthetically pleasing and advanced visualizations. 
+ Visualizations help in understanding trends, distributions, and outliers in data. 
+Conclusion: 
+This experiment demonstrates how to create visualizations using Matplotlib and Seaborn to 
+explore data effectively. Proper visualization techniques help in better decision-making and 
+data interpretation. 
+Viva Questions: 
+1. What is the difference between Matplotlib and Seaborn? 
+2. What is the purpose of using a Box Plot? 
+3. How can you plot a histogram using Seaborn? 
+4. What is the role of plt.show() in Matplotlib? 
+5. How do you customize colors and styles in Seaborn? 
+6. How do you save a plot as an image file in Python? 
+
+
+
+
+
+
+
+
+
+Experiment 5: Correlation Analysis and Feature Selection 
+Objective: To understand and perform correlation analysis and feature selection techniques 
+to identify important features in a dataset. 
+Requirements: 
+ Python installed (Recommended: Python 3.x) 
+ Pandas, NumPy, Seaborn, and Scikit-learn libraries (pip install pandas numpy 
+seaborn scikit-learn) 
+ Jupyter Notebook or any Python IDE 
+ Sample dataset (CSV or Excel format) 
+Theory: 
+Feature selection is a key step in machine learning, where redundant or irrelevant features are 
+removed to improve model performance. Correlation analysis helps identify relationships 
+between variables. Highly correlated features may introduce redundancy, leading to 
+overfitting. 
+Step-by-Step Procedure: 
+1. Importing Required Libraries 
+import pandas as pd 
+import numpy as np 
+import seaborn as sns 
+import matplotlib.pyplot as plt 
+from sklearn.feature_selection import SelectKBest, f_classif, 
+mutual_info_classif 
+2. Loading Data 
+df = pd.read_csv('sample_data.csv') 
+print(df.head())  # Display first five rows 
+3. Performing Correlation Analysis 
+# Compute correlation matrix 
+correlation_matrix = df.corr() 
+# Visualizing correlation heatmap 
+plt.figure(figsize=(10, 6)) 
+sns.heatmap(correlation_matrix, annot=True, cmap='coolwarm', fmt='.2f') 
+plt.title('Correlation Heatmap') 
+plt.show() 
+4. Identifying Highly Correlated Features 
+# Find pairs of highly correlated features (threshold > 0.8) 
+thresh = 0.8 
+high_corr = [(col1, col2) for col1 in df.columns for col2 in df.columns if 
+col1 != col2 and abs(correlation_matrix.loc[col1, col2]) > thresh] 
+print("Highly Correlated Feature Pairs:", high_corr) 
+5. Feature Selection using Statistical Methods 
+# Select best features using ANOVA F-value 
+X = df.drop(columns=['TargetColumn'])  # Replace 'TargetColumn' with actual 
+target variable 
+y = df['TargetColumn'] 
+selector = SelectKBest(score_func=f_classif, k=5)  # Select top 5 features 
+X_new = selector.fit_transform(X, y) 
+selected_features = X.columns[selector.get_support()] 
+print("Selected Features using ANOVA:", selected_features) 
+# Feature selection using Mutual Information 
+selector = SelectKBest(score_func=mutual_info_classif, k=5) 
+X_new = selector.fit_transform(X, y) 
+selected_features = X.columns[selector.get_support()] 
+print("Selected Features using Mutual Information:", selected_features) 
+6. Removing Unimportant or Redundant Features 
+# Drop one feature from each highly correlated pair 
+for col1, col2 in high_corr: 
+df.drop(columns=[col2], inplace=True, errors='ignore') 
+print("Updated DataFrame after removing redundant features:") 
+print(df.head()) 
+7. Saving the Processed Dataset 
+df.to_csv('selected_features_data.csv', index=False) 
+df.to_excel('selected_features_data.xlsx', index=False) 
+Observations: 
+ Correlation heatmap helped visualize r 
+Experiment 6: Build and Evaluate a Linear Regression Model 
+Objective: To understand and implement linear regression for predictive analysis using 
+Python. 
+Requirements: 
+ Python installed (Recommended: Python 3.x) 
+ Pandas, NumPy, Matplotlib, Seaborn, and Scikit-learn libraries (pip install 
+pandas numpy matplotlib seaborn scikit-learn) 
+ Jupyter Notebook or any Python IDE 
+ Sample dataset (CSV or Excel format) 
+Theory: 
+Linear regression is a fundamental statistical technique used for modeling relationships 
+between a dependent variable (target) and one or more independent variables (features). It 
+helps in predicting numerical values based on input data. 
+Step-by-Step Procedure: 
+1. Importing Required Libraries 
+import pandas as pd 
+import numpy as np 
+import matplotlib.pyplot as plt 
+import seaborn as sns 
+from sklearn.model_selection import train_test_split 
+from sklearn.linear_model import LinearRegression 
+from sklearn.metrics import mean_absolute_error, mean_squared_error, 
+r2_score 
+2. Loading Data 
+df = pd.read_csv('sample_data.csv') 
+print(df.head())  # Display first five rows 
+3. Exploratory Data Analysis (EDA) 
+# Check for missing values 
+print(df.isnull().sum()) 
+# Visualizing relationships 
+sns.pairplot(df) 
+plt.show() 
+4. Splitting Data into Training and Testing Sets 
+# Define features and target variable 
+X = df[['Feature1', 'Feature2']]  # Replace with relevant feature columns 
+y = df['TargetVariable']  # Replace with actual target column 
+# Split into training (80%) and testing (20%) sets 
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, 
+random_state=42) 
+5. Building the Linear Regression Model 
+# Initialize and train the model 
+model = LinearRegression() 
+model.fit(X_train, y_train) 
+6. Making Predictions 
+y_pred = model.predict(X_test) 
+7. Evaluating the Model 
+# Calculate evaluation metrics 
+mae = mean_absolute_error(y_test, y_pred) 
+mse = mean_squared_error(y_test, y_pred) 
+rmse = np.sqrt(mse) 
+r2 = r2_score(y_test, y_pred) 
+print("Mean Absolute Error (MAE):", mae) 
+print("Mean Squared Error (MSE):", mse) 
+print("Root Mean Squared Error (RMSE):", rmse) 
+print("R-squared Score (R2):", r2) 
+8. Visualizing Regression Results 
+plt.figure(figsize=(8,5)) 
+sns.scatterplot(x=y_test, y=y_pred, color='blue') 
+plt.xlabel('Actual Values') 
+plt.ylabel('Predicted Values') 
+plt.title('Actual vs Predicted Values') 
+plt.show() 
+9. Saving the Model (Optional) 
+import joblib 
+joblib.dump(model, 'linear_regression_model.pkl')  # Save the trained model 
+Observations: 
+ The regression model was successfully trained and evaluated. 
+ Performance metrics like MAE, MSE, RMSE, and R-squared were calculated. 
+ A scatter plot was used to compare actual vs. predicted values. 
+Conclusion: 
+This experiment demonstrated how to build and evaluate a linear regression model using 
+Python. The model's effectiveness was measured using standard evaluation metrics. 
+Viva Questions: 
+1. What is the purpose of linear regression in machine learning? 
+2. How does the R-squared value help in evaluating a regression model? 
+3. What is the difference between MSE and RMSE? 
+4. Why do we split data into training and testing sets? 
+5. How can we improve the performance of a linear regression model? 
+6. What are some assumptions of linear regression? 
+
+
+
+
+
+Experiment 6: Build and Evaluate a Linear Regression Model 
+Objective: To understand and implement linear regression for predictive analysis using 
+Python. 
+Requirements: 
+ Python installed (Recommended: Python 3.x) 
+ Pandas, NumPy, Matplotlib, Seaborn, and Scikit-learn libraries (pip install 
+pandas numpy matplotlib seaborn scikit-learn) 
+ Jupyter Notebook or any Python IDE 
+ Sample dataset (CSV or Excel format) 
+Theory: 
+Linear regression is a fundamental statistical technique used for modeling relationships 
+between a dependent variable (target) and one or more independent variables (features). It 
+helps in predicting numerical values based on input data. 
+Step-by-Step Procedure: 
+1. Importing Required Libraries 
+import pandas as pd 
+import numpy as np 
+import matplotlib.pyplot as plt 
+import seaborn as sns 
+from sklearn.model_selection import train_test_split 
+from sklearn.linear_model import LinearRegression 
+from sklearn.metrics import mean_absolute_error, mean_squared_error, 
+r2_score 
+2. Loading Data 
+df = pd.read_csv('sample_data.csv') 
+print(df.head())  # Display first five rows 
+3. Exploratory Data Analysis (EDA) 
+# Check for missing values 
+print(df.isnull().sum()) 
+# Visualizing relationships 
+sns.pairplot(df) 
+plt.show() 
+4. Splitting Data into Training and Testing Sets 
+# Define features and target variable 
+X = df[['Feature1', 'Feature2']]  # Replace with relevant feature columns 
+y = df['TargetVariable']  # Replace with actual target column 
+# Split into training (80%) and testing (20%) sets 
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, 
+random_state=42) 
+5. Building the Linear Regression Model 
+# Initialize and train the model 
+model = LinearRegression() 
+model.fit(X_train, y_train) 
+6. Making Predictions 
+y_pred = model.predict(X_test) 
+7. Evaluating the Model 
+# Calculate evaluation metrics 
+mae = mean_absolute_error(y_test, y_pred) 
+mse = mean_squared_error(y_test, y_pred) 
+rmse = np.sqrt(mse) 
+r2 = r2_score(y_test, y_pred) 
+print("Mean Absolute Error (MAE):", mae) 
+print("Mean Squared Error (MSE):", mse) 
+print("Root Mean Squared Error (RMSE):", rmse) 
+print("R-squared Score (R2):", r2) 
+8. Visualizing Regression Results 
+plt.figure(figsize=(8,5)) 
+sns.scatterplot(x=y_test, y=y_pred, color='blue') 
+plt.xlabel('Actual Values') 
+plt.ylabel('Predicted Values') 
+plt.title('Actual vs Predicted Values') 
+plt.show() 
+9. Saving the Model (Optional) 
+import joblib 
+joblib.dump(model, 'linear_regression_model.pkl')  # Save the trained model 
+Observations: 
+ The regression model was successfully trained and evaluated. 
+ Performance metrics like MAE, MSE, RMSE, and R-squared were calculated. 
+ A scatter plot was used to compare actual vs. predicted values. 
+Conclusion: 
+This experiment demonstrated how to build and evaluate a linear regression model using 
+Python. The model's effectiveness was measured using standard evaluation metrics. 
+Viva Questions: 
+1. What is the purpose of linear regression in machine learning? 
+2. How does the R-squared value help in evaluating a regression model? 
+3. What is the difference between MSE and RMSE? 
+4. Why do we split data into training and testing sets? 
+5. How can we improve the performance of a linear regression model? 
+6. What are some assumptions of linear regression? 
+
+
