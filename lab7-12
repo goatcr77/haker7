@@ -1,0 +1,455 @@
+Experiment 7: Develop a Classification Model using Decision Trees or 
+Logistic Regression 
+Objective: To understand and implement a classification model using Decision Trees or 
+Logistic Regression in Python. 
+Requirements: 
+ Python installed (Recommended: Python 3.x) 
+ Pandas, NumPy, Scikit-learn, Matplotlib, and Seaborn libraries (pip install 
+pandas numpy scikit-learn matplotlib seaborn) 
+ Jupyter Notebook or any Python IDE 
+ Sample dataset (CSV or Excel format) 
+Theory: 
+Classification is a supervised machine learning technique used to categorize data into 
+predefined labels. Decision Trees use a tree-like model of decisions, while Logistic 
+Regression applies a statistical approach to predict binary or multi-class outcomes. 
+Step-by-Step Procedure: 
+1. Importing Required Libraries 
+import pandas as pd 
+import numpy as np 
+import matplotlib.pyplot as plt 
+import seaborn as sns 
+from sklearn.model_selection import train_test_split 
+from sklearn.preprocessing import StandardScaler 
+from sklearn.tree import DecisionTreeClassifier 
+from sklearn.linear_model import LogisticRegression 
+from sklearn.metrics import accuracy_score, classification_report, 
+confusion_matrix 
+2. Loading Data 
+df = pd.read_csv('sample_data.csv') 
+print(df.head())  # Display first five rows 
+3. Preprocessing the Data 
+# Handling missing values (if any) 
+df = df.dropna() 
+# Selecting relevant features and target variable 
+X = df[['Feature1', 'Feature2']]  # Replace with actual feature names 
+y = df['Target']  # Replace with actual target column name 
+# Splitting the dataset into training and testing sets 
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, 
+random_state=42) 
+4. Standardizing the Features (Optional for Logistic Regression) 
+scaler = StandardScaler() 
+X_train = scaler.fit_transform(X_train) 
+X_test = scaler.transform(X_test) 
+5. Training a Decision Tree Classifier 
+decision_tree = DecisionTreeClassifier(random_state=42) 
+decision_tree.fit(X_train, y_train) 
+y_pred_tree = decision_tree.predict(X_test) 
+6. Training a Logistic Regression Model 
+log_reg = LogisticRegression() 
+log_reg.fit(X_train, y_train) 
+y_pred_log = log_reg.predict(X_test) 
+7. Evaluating Model Performance 
+# Evaluation for Decision Tree Model 
+print("Decision Tree Accuracy:", accuracy_score(y_test, y_pred_tree)) 
+print("Decision Tree Classification Report:\n", 
+classification_report(y_test, y_pred_tree)) 
+print("Decision Tree Confusion Matrix:\n", confusion_matrix(y_test, 
+y_pred_tree)) 
+# Evaluation for Logistic Regression Model 
+print("Logistic Regression Accuracy:", accuracy_score(y_test, y_pred_log)) 
+print("Logistic Regression Classification Report:\n", 
+classification_report(y_test, y_pred_log)) 
+print("Logistic Regression Confusion Matrix:\n", confusion_matrix(y_test, 
+y_pred_log)) 
+8. Visualizing Decision Boundaries (Optional) 
+plt.figure(figsize=(8,5)) 
+sns.heatmap(confusion_matrix(y_test, y_pred_tree), annot=True, fmt='d', 
+cmap='Blues') 
+plt.title("Decision Tree Confusion Matrix") 
+plt.show() 
+plt.figure(figsize=(8,5)) 
+sns.heatmap(confusion_matrix(y_test, y_pred_log), annot=True, fmt='d', 
+cmap='Oranges') 
+plt.title("Logistic Regression Confusion Matrix") 
+plt.show() 
+Observations: 
+ The dataset was classified using Decision Tree and Logistic Regression models. 
+ The accuracy and classification reports were used to evaluate the models. 
+ Confusion matrices were plotted to analyze model predictions. 
+Conclusion: 
+This experiment demonstrated how to build and evaluate a classification model using 
+Decision Trees and Logistic Regression. The models were trained on a dataset and tested for 
+accuracy and performance using classification metrics. 
+Viva Questions: 
+1. What is the difference between Decision Tree and Logistic Regression? 
+2. How does a Decision Tree make classification decisions? 
+3. What are the advantages of Logistic Regression over Decision Trees? 
+4. Why do we standardize data before applying Logistic Regression? 
+5. How can you improve the performance of a Decision Tree model? 
+6. What is the significance of a confusion matrix in evaluating classification models? 
+
+
+
+
+
+
+Experiment  8: Apply K-Means Clustering to Categorize Data 
+Objective: To understand and implement K-Means clustering for categorizing data using 
+Python. 
+Requirements: 
+ Python installed (Recommended: Python 3.x) 
+ Pandas, NumPy, Matplotlib, Seaborn, and Scikit-learn libraries (pip install 
+pandas numpy matplotlib seaborn scikit-learn) 
+ Jupyter Notebook or any Python IDE 
+ Sample dataset (CSV or Excel format) 
+Theory: 
+K-Means is an unsupervised clustering algorithm that partitions data into K distinct clusters 
+based on feature similarity. It works by iteratively minimizing the variance within each 
+cluster. 
+Step-by-Step Procedure: 
+1. Importing Required Libraries 
+import pandas as pd 
+import numpy as np 
+import matplotlib.pyplot as plt 
+import seaborn as sns 
+from sklearn.cluster import KMeans 
+from sklearn.preprocessing import StandardScaler 
+2. Loading Data 
+df = pd.read_csv('sample_data.csv') 
+print(df.head())  # Display first five rows 
+3. Preprocessing the Data 
+# Handling missing values (if any) 
+df = df.dropna() 
+# Selecting relevant features 
+X = df[['Feature1', 'Feature2']]  # Replace with relevant numerical 
+features 
+# Standardizing the features for better clustering 
+scaler = StandardScaler() 
+X_scaled = scaler.fit_transform(X) 
+4. Applying K-Means Clustering 
+# Choosing number of clusters (K) 
+k = 3  # Adjust based on the dataset 
+kmeans = KMeans(n_clusters=k, random_state=42) 
+kmeans.fit(X_scaled) 
+# Assigning cluster labels 
+df['Cluster'] = kmeans.labels_ 
+5. Evaluating the Clustering Model 
+print("Cluster Centers:\n", kmeans.cluster_centers_) 
+print("Inertia (Sum of Squared Distances):", kmeans.inertia_) 
+6. Visualizing Clusters 
+plt.figure(figsize=(8,5)) 
+sns.scatterplot(x=df['Feature1'], y=df['Feature2'], hue=df['Cluster'], 
+palette='viridis', s=100) 
+plt.xlabel('Feature1') 
+plt.ylabel('Feature2') 
+plt.title('K-Means Clustering Visualization') 
+plt.legend() 
+plt.show() 
+7. Finding Optimal K using Elbow Method 
+inertia = [] 
+k_range = range(1, 11) 
+for k in k_range: 
+kmeans = KMeans(n_clusters=k, random_state=42) 
+kmeans.fit(X_scaled) 
+inertia.append(kmeans.inertia_) 
+plt.plot(k_range, inertia, marker='o') 
+plt.xlabel('Number of Clusters (K)') 
+plt.ylabel('Inertia') 
+plt.title('Elbow Method for Optimal K') 
+plt.show() 
+Observations: 
+ The dataset was successfully clustered using K-Means. 
+ The Elbow Method was used to determine the optimal number of clusters. 
+ A scatter plot was used to visualize the clustered data. 
+Conclusion: 
+This experiment demonstrated how to apply K-Means clustering for categorizing data. The 
+algorithm groups data points based on feature similarity, and optimal K selection improves 
+clustering performance. 
+Viva Questions: 
+1. What is the purpose of K-Means clustering? 
+2. How does the K-Means algorithm work? 
+3. What is the significance of the Elbow Method? 
+4. Why do we standardize data before applying K-Means? 
+5. What are some limitations of K-Means clustering? 
+6. How can we improve clustering performance in K-Means? 
+
+
+
+
+
+Experiment 9: Perform Time Series Forecasting using ARIMA/SARIMA 
+Models 
+Objective: To understand and implement time series forecasting using ARIMA and 
+SARIMA models in Python. 
+Experiment 9: Perform Time Series Forecasting using ARIMA/SARIMA 
+Models 
+Requirements: 
+ Python installed (Recommended: Python 3.x) 
+ Pandas, NumPy, Matplotlib, Seaborn, Statsmodels, and Scikit-learn libraries (pip 
+install pandas numpy matplotlib seaborn statsmodels scikit-learn) 
+ Jupyter Notebook or any Python IDE 
+ Time series dataset (CSV or Excel format) 
+Theory: 
+Time series forecasting involves analyzing historical data to predict future values. ARIMA 
+(AutoRegressive Integrated Moving Average) and SARIMA (Seasonal ARIMA) models are 
+widely used statistical methods for forecasting time-dependent data. 
+ ARIMA (p, d, q): 
+o p: Number of autoregressive (AR) terms 
+o d: Number of differencing steps to make data stationary 
+o q: Number of moving average (MA) terms 
+ SARIMA (p, d, q) (P, D, Q, s): 
+o Adds seasonal components P, D, Q with seasonality s 
+Step-by-Step Procedure: 
+1. Importing Required Libraries 
+import pandas as pd 
+import numpy as np 
+import matplotlib.pyplot as plt 
+import seaborn as sns 
+from statsmodels.tsa.stattools import adfuller 
+from statsmodels.tsa.arima.model import ARIMA 
+from statsmodels.tsa.statespace.sarimax import SARIMAX 
+from sklearn.metrics import mean_absolute_error, mean_squared_error 
+2. Loading Time Series Data 
+df = pd.read_csv('time_series_data.csv', parse_dates=['Date'], 
+index_col='Date') 
+print(df.head())  # Display first five rows 
+3. Visualizing the Data 
+plt.figure(figsize=(10,5)) 
+plt.plot(df, label='Time Series Data') 
+plt.xlabel('Date') 
+plt.ylabel('Value') 
+plt.title('Time Series Data Visualization') 
+plt.legend() 
+plt.show() 
+4. Checking for Stationarity using Augmented Dickey-Fuller Test 
+def check_stationarity(series): 
+result = adfuller(series) 
+print(f'ADF Statistic: {result[0]}') 
+print(f'p-value: {result[1]}') 
+if result[1] <= 0.05: 
+print("Data is stationary") 
+else: 
+print("Data is not stationary") 
+check_stationarity(df['Value'])  # Replace 'Value' with actual column name 
+5. Differencing the Data (if necessary) 
+df_diff = df.diff().dropna() 
+check_stationarity(df_diff['Value']) 
+6. Building and Training ARIMA Model 
+p, d, q = 2, 1, 2  # Adjust based on ACF/PACF plots 
+arima_model = ARIMA(df, order=(p, d, q)) 
+arima_result = arima_model.fit() 
+print(arima_result.summary()) 
+7. Forecasting with ARIMA 
+forecast_steps = 30  # Number of future predictions 
+arima_forecast = arima_result.forecast(steps=forecast_steps) 
+plt.figure(figsize=(10,5)) 
+plt.plot(df, label='Actual Data') 
+plt.plot(pd.date_range(df.index[-1], periods=forecast_steps+1, 
+freq='D')[1:], arima_forecast, label='ARIMA Forecast', color='red') 
+plt.xlabel('Date') 
+plt.ylabel('Value') 
+plt.title('ARIMA Forecasting') 
+plt.legend() 
+plt.show() 
+8. Building and Training SARIMA Model (For Seasonal Data) 
+P, D, Q, s = 1, 1, 1, 12  # Adjust based on seasonality analysis 
+sarima_model = SARIMAX(df, order=(p, d, q), seasonal_order=(P, D, Q, s)) 
+sarima_result = sarima_model.fit() 
+print(sarima_result.summary()) 
+9. Forecasting with SARIMA 
+sarima_forecast = sarima_result.forecast(steps=forecast_steps) 
+plt.figure(figsize=(10,5)) 
+plt.plot(df, label='Actual Data') 
+plt.plot(pd.date_range(df.index[-1], periods=forecast_steps+1, 
+freq='D')[1:], sarima_forecast, label='SARIMA Forecast', color='green') 
+plt.xlabel('Date') 
+plt.ylabel('Value') 
+plt.title('SARIMA Forecasting') 
+plt.legend() 
+plt.show() 
+10. Evaluating Model Performance 
+def evaluate_model(true_values, predictions): 
+mae = mean_absolute_error(true_values, predictions) 
+mse = mean_squared_error(true_values, predictions) 
+print(f'Mean Absolute Error: {mae}') 
+print(f'Mean Squared Error: {mse}') 
+evaluate_model(df[-forecast_steps:], arima_forecast) 
+evaluate_model(df[-forecast_steps:], sarima_forecast) 
+Observations: 
+ The dataset was analyzed for stationarity using the ADF test. 
+ ARIMA and SARIMA models were implemented and trained. 
+ Forecasting results were visualized using Matplotlib. 
+ The models were evaluated using error metrics like MAE and MSE. 
+Conclusion: 
+This experiment demonstrated how to apply ARIMA and SARIMA models for time series 
+forecasting. The models help in making future predictions based on historical data trends and 
+seasonality. 
+Viva Questions: 
+1. What is the difference between ARIMA and SARIMA models? 
+2. How do we determine whether a time series is stationary? 
+3. Why do we perform differencing in time series analysis? 
+4. What role does seasonality play in forecasting models? 
+5. How can we choose the best values for (p, d, q) in ARIMA? 
+6. What are the limitations of ARIMA and SARIMA models? 
+
+
+
+
+
+
+
+Experiment 10: Analyze Electrical Power Demand Data using Visualization 
+and ML Techniques 
+Objective: To analyze electrical power demand data using visualization techniques and 
+machine learning models in Python. 
+Requirements: 
+ Python installed (Recommended: Python 3.x) 
+ Pandas, NumPy, Matplotlib, Seaborn, Statsmodels, Scikit-learn libraries (pip 
+install pandas numpy matplotlib seaborn statsmodels scikit-learn) 
+ Jupyter Notebook or any Python IDE 
+ Electrical power demand dataset (CSV or Excel format) 
+Theory: 
+Analyzing electrical power demand data helps in understanding consumption patterns, 
+predicting future demand, and optimizing energy distribution. Visualization aids in detecting 
+trends, seasonality, and anomalies, while machine learning models can be used for demand 
+forecasting and anomaly detection. 
+Step-by-Step Procedure: 
+1. Importing Required Libraries 
+import pandas as pd 
+import numpy as np 
+import matplotlib.pyplot as plt 
+import seaborn as sns 
+from sklearn.model_selection import train_test_split 
+from sklearn.ensemble import RandomForestRegressor 
+from sklearn.metrics import mean_absolute_error, mean_squared_error 
+2. Loading Power Demand Data 
+df = pd.read_csv('power_demand_data.csv', parse_dates=['Timestamp'], 
+index_col='Timestamp') 
+print(df.head())  # Display first five rows 
+3. Visualizing the Data 
+plt.figure(figsize=(12,6)) 
+plt.plot(df, label='Power Demand') 
+plt.xlabel('Timestamp') 
+plt.ylabel('Demand (MW)') 
+plt.title('Electrical Power Demand Over Time') 
+plt.legend() 
+plt.show() 
+4. Checking for Missing Values and Handling Them 
+print(df.isnull().sum())  # Check for missing values 
+df = df.fillna(method='ffill')  # Forward fill missing values 
+5. Feature Engineering 
+df['Hour'] = df.index.hour 
+df['Day'] = df.index.day 
+df['Month'] = df.index.month 
+df['Weekday'] = df.index.weekday 
+6. Splitting the Data into Training and Testing Sets 
+X = df[['Hour', 'Day', 'Month', 'Weekday']] 
+y = df['Power_Demand']  # Replace with actual column name 
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, 
+random_state=42) 
+7. Training a Machine Learning Model (Random Forest Regressor) 
+model = RandomForestRegressor(n_estimators=100, random_state=42) 
+model.fit(X_train, y_train) 
+8. Making Predictions 
+y_pred = model.predict(X_test) 
+9. Evaluating Model Performance 
+mae = mean_absolute_error(y_test, y_pred) 
+mse = mean_squared_error(y_test, y_pred) 
+print(f'Mean Absolute Error: {mae}') 
+print(f'Mean Squared Error: {mse}') 
+10. Visualizing Actual vs Predicted Demand 
+plt.figure(figsize=(10,5)) 
+plt.plot(y_test.values[:100], label='Actual', color='blue') 
+plt.plot(y_pred[:100], label='Predicted', color='red') 
+plt.xlabel('Time') 
+plt.ylabel('Power Demand (MW)') 
+plt.title('Actual vs Predicted Power Demand') 
+plt.legend() 
+plt.show() 
+Observations: 
+ The dataset was analyzed for trends, seasonality, and missing values. 
+ Random Forest Regressor was used to predict power demand. 
+ The model's performance was evaluated using MAE and MSE. 
+ A visualization compared actual vs predicted power demand. 
+Conclusion: 
+This experiment demonstrated the application of data visualization and machine learning 
+techniques in analyzing and predicting electrical power demand. 
+Viva Questions: 
+1. Why is it important to analyze power demand data? 
+2. What are the key features used in demand forecasting? 
+3. How does the Random Forest model work? 
+4. What are some alternative machine learning models for time series forecasting? 
+5. How can this analysis be improved for real-world applications? 
+
+
+
+
+
+
+Experiment 11: Create a Power BI/Tableau Dashboard for a Dataset 
+Objective: To design an interactive dashboard using Power BI or Tableau for data 
+visualization and analysis. 
+Requirements: 
+ Power BI Desktop or Tableau Public installed. 
+ A dataset (CSV, Excel, or any supported format). 
+ Basic understanding of data visualization principles. 
+Theory: 
+Power BI and Tableau are powerful business intelligence tools used to create interactive 
+visualizations. They help in identifying trends, patterns, and insights from raw data. 
+Dashboards combine multiple visual elements, such as charts, maps, and tables, into a single 
+interface for better data analysis. 
+Step-by-Step Procedure: 
+A. Using Power BI 
+1. Load Data into Power BI 
+ Open Power BI Desktop. 
+ Click on Home > Get Data > CSV/Excel. 
+ Select your dataset and load it into Power BI. 
+2. Data Cleaning & Transformation (if needed) 
+ Use Power Query Editor to clean and format data. 
+ Remove duplicates, handle missing values, and rename columns. 
+ Click Close & Apply to save changes. 
+3. Creating Visualizations 
+ Go to the Report view. 
+ Drag fields from the Fields Pane to the visualization area. 
+ Select visualization types (bar chart, pie chart, line graph, etc.). 
+ Customize visuals using the Format Pane. 
+4. Adding Filters & Interactivity 
+ Use Slicers to filter data dynamically. 
+ Enable Drill-through for deeper insights. 
+5. Publishing the Dashboard 
+ Click Publish to upload the dashboard to Power BI Service. 
+ Share the report with stakeholders. 
+B. Using Tableau 
+1. Load Data into Tableau 
+ Open Tableau Public/Desktop. 
+ Click on Connect to Data and select your dataset. 
+ Drag the data source to the Canvas. 
+2. Data Preparation 
+ Use Data Interpreter to clean the dataset. 
+ Create calculated fields if needed. 
+3. Creating Visualizations 
+ Drag dimensions and measures to the Rows and Columns. 
+ Select chart types (bar chart, scatter plot, line graph, etc.). 
+ Customize colors, labels, and tooltips. 
+4. Building the Dashboard 
+ Click on New Dashboard. 
+ Drag different sheets onto the dashboard. 
+ Add filters, legends, and interactive buttons. 
+5. Publishing the Dashboard 
+ Save and publish to Tableau Public. 
+ Share the dashboard link with others. 
+Observations: 
+ Successfully imported and cleaned the dataset. 
+ Created multiple visualizations representing different insights. 
+ Built an interactive dashboard with filters and drill-down features. 
+ Published and shared the final dashboard. 
+Conclusion: 
+This experiment demonstrated how to use Power BI and Tableau for data visualization. 
+Interactive dashboards allow users to explore data effectively, leading to better decision
+making. 
+Viva Questions: 
+1. What are the key differences between Power BI and Tableau? 
+2. How do filters enhance dashboard interactivity? 
+3. What are some best practices for designing an effective dashboard? 
+4. How can you publish and share a Power BI or Tableau dashboard? 
+5. How does Power Query help in data transformation?
